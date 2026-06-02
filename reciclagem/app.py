@@ -2,10 +2,10 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 import sqlite3
 import hashlib
 import os
-app = Flask(
-    __name__,
-    template_folder=os.path.join(os.path.dirname(__file__), 'Templates')
-)
+app = Flask(__name__)
+app.secret_key = 'chave_secreta_reciclagem_2024'
+
+DB_PATH = 'reciclagem.db'
 
 app.secret_key = "sua_chave_secreta"
 DB_PATH = 'reciclagem.db'
