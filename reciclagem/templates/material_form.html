@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}{% if material %}Editar Material{% else %}Novo Material{% endif %}{% endblock %}
+{% block content %}
+<div class="container">
+    <h1 class="page-title">{% if material %}✏️ Editar Material{% else %}➕ Novo Material{% endif %}</h1>
+
+    <div class="card" style="max-width:600px;">
+        <form method="POST">
+            <div class="form-group">
+                <label>Nome do Material *</label>
+                <input type="text" name="nome" placeholder="Ex: Garrafa PET" required
+                       value="{{ material.nome if material else '' }}">
+            </div>
+            <div class="form-group">
+                <label>Categoria *</label>
+                <select name="categoria" required>
+                    <option value="">Selecione...</option>
+                    {% for cat in ['Papel', 'Plástico', 'Vidro', 'Metal', 'Orgânico', 'Eletrônico', 'Outros'] %}
+                    <option value="{{ cat }}" {% if material and material.categoria==cat %}selected{% endif %}>{{ cat }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Descrição</label>
+                <textarea name="descricao" placeholder="O que este material inclui?">{{ material.descricao if material else '' }}</textarea>
+            </div>
+            <div class="form-group">
+                <label>Instruções de Descarte</label>
+                <textarea name="instrucoes" placeholder="Como deve ser descartado ou preparado?">{{ material.instrucoes if material else '' }}</textarea>
+            </div>
+
+            <div style="display:flex; gap:10px; margin-top:8px;">
+                <button type="submit" class="btn btn-primary">💾 Salvar</button>
+                <a href="{{ url_for('materiais') }}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}Materiais{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="actions-bar">
+        <h1 class="page-title" style="margin:0;">♻️ Materiais de Reciclagem</h1>
+        <a href="{{ url_for('novo_material') }}" class="btn btn-primary">➕ Novo Material</a>
+    </div>
+
+    <!-- Filtros -->
+    <form method="GET" class="card" style="margin-bottom:20px; padding:16px;">
+        <div class="search-bar">
+            <input type="text" name="busca" placeholder="🔍 Buscar por nome ou descrição..." value="{{ busca }}">
+            <select name="categoria">
+                <option value="">Todas as categorias</option>
+                {% for cat in categorias %}
+                <option value="{{ cat.categoria }}" {% if categoria_filtro==cat.categoria %}selected{% endif %}>{{ cat.categoria }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+            {% if busca or categoria_filtro %}
+            <a href="{{ url_for('materiais') }}" class="btn btn-secondary">Limpar</a>
+            {% endif %}
+        </div>
+    </form>
+
+    <!-- Tabela -->
+    <div class="card" style="padding:0; overflow:hidden;">
+        {% if lista %}
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nome</th>
+                    <th>Categoria</th>
+                    <th>Descrição</th>
+                    <th>Instruções</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in lista %}
+                <tr>
+                    <td style="color:#aaa; font-size:.8rem;">{{ m.id }}</td>
+                    <td><strong>{{ m.nome }}</strong></td>
+                    <td>
+                        {% set cat_lower = m.categoria|lower %}
+                        <span class="badge badge-{% if 'papel' in cat_lower or 'papelão' in cat_lower %}papel{% elif 'plástico' in cat_lower or 'plastico' in cat_lower %}plastico{% elif 'vidro' in cat_lower %}vidro{% elif 'metal' in cat_lower or 'alumínio' in cat_lower or 'cobre' in cat_lower %}metal{% else %}outros{% endif %}">
+                            {{ m.categoria }}
+                        </span>
+                    </td>
+                    <td style="color:#555; font-size:.88rem;">{{ m.descricao or '—' }}</td>
+                    <td style="color:#555; font-size:.88rem; max-width:200px;">{{ m.instrucoes or '—' }}</td>
+                    <td>
+                        <a href="{{ url_for('editar_material', id=m.id) }}" class="btn btn-secondary btn-sm">✏️ Editar</a>
+                        <form method="POST" action="{{ url_for('excluir_material', id=m.id) }}" style="display:inline;" onsubmit="return confirm('Remover este material?')">
+                            <button type="submit" class="btn btn-danger btn-sm">🗑️</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div style="text-align:center; padding:40px; color:#888;">
+            <div style="font-size:3rem;">♻️</div>
+            <p style="margin-top:12px;">Nenhum material encontrado.</p>
+            <a href="{{ url_for('novo_material') }}" class="btn btn-primary" style="margin-top:16px;">Adicionar primeiro material</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <p style="margin-top:12px; color:#888; font-size:.85rem;">{{ lista|length }} material(is) encontrado(s)</p>
+</div>
+{% endblock %}

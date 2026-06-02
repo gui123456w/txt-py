@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="container">
+    <h1 class="page-title">📊 Dashboard</h1>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="card-title">Total de Materiais</div>
+            <div class="card-value">{{ total_materiais }}</div>
+        </div>
+        <div class="stat-card" style="border-color:#0d6efd;">
+            <div class="card-title">Usuários Cadastrados</div>
+            <div class="card-value" style="color:#0d6efd;">{{ total_usuarios }}</div>
+        </div>
+        <div class="stat-card" style="border-color:#fd7e14;">
+            <div class="card-title">Categorias</div>
+            <div class="card-value" style="color:#fd7e14;">{{ categorias|length }}</div>
+        </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; flex-wrap:wrap;">
+        <!-- Categorias -->
+        <div class="card">
+            <h2 style="font-size:1.1rem; color:#1a5c1a; margin-bottom:16px;">📦 Materiais por Categoria</h2>
+            {% if categorias %}
+                {% for cat in categorias %}
+                <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #eef3ee; font-size:.9rem;">
+                    <span>{{ cat.categoria }}</span>
+                    <strong style="color:#1a5c1a;">{{ cat.qtd }}</strong>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p style="color:#888; font-size:.9rem;">Nenhum material cadastrado.</p>
+            {% endif %}
+        </div>
+
+        <!-- Últimos adicionados -->
+        <div class="card">
+            <h2 style="font-size:1.1rem; color:#1a5c1a; margin-bottom:16px;">🕐 Últimos Materiais</h2>
+            {% if recentes %}
+                {% for m in recentes %}
+                <div style="padding:8px 0; border-bottom:1px solid #eef3ee;">
+                    <div style="font-weight:600; font-size:.9rem;">{{ m.nome }}</div>
+                    <div style="font-size:.8rem; color:#888;">{{ m.categoria }} • {{ m.criado_em[:10] }}</div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p style="color:#888; font-size:.9rem;">Nenhum material ainda.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div style="margin-top:20px;">
+        <a href="{{ url_for('novo_material') }}" class="btn btn-primary">➕ Adicionar Material</a>
+        <a href="{{ url_for('materiais') }}" class="btn btn-secondary" style="margin-left:10px;">📋 Ver Todos os Materiais</a>
+    </div>
+</div>
+{% endblock %}

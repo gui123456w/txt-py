@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Usuários{% endblock %}
+{% block content %}
+<div class="container">
+    <h1 class="page-title">👥 Usuários Cadastrados</h1>
+
+    <div class="card" style="padding:0; overflow:hidden;">
+        {% if lista %}
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Cadastrado em</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in lista %}
+                <tr>
+                    <td style="color:#aaa; font-size:.8rem;">{{ u.id }}</td>
+                    <td>
+                        <strong>{{ u.nome }}</strong>
+                        {% if u.id == session.usuario_id %}
+                        <span class="badge" style="background:#d4edda; color:#155724; margin-left:6px;">Você</span>
+                        {% endif %}
+                    </td>
+                    <td style="color:#555; font-size:.88rem;">{{ u.email }}</td>
+                    <td style="color:#888; font-size:.82rem;">{{ u.criado_em[:16] if u.criado_em else '—' }}</td>
+                    <td><span class="badge" style="background:#d4edda; color:#155724;">Ativo</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div style="text-align:center; padding:40px; color:#888;">Nenhum usuário encontrado.</div>
+        {% endif %}
+    </div>
+    <p style="margin-top:12px; color:#888; font-size:.85rem;">{{ lista|length }} usuário(s) cadastrado(s)</p>
+</div>
+{% endblock %}
