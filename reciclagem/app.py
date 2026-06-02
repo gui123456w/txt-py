@@ -3,10 +3,15 @@ import sqlite3
 import hashlib
 import os
 
+# de:
 app = Flask(__name__)
-app.secret_key = 'chave_secreta_reciclagem_2024'
+
+# para:
+app = Flask(__name__, template_folder=os.path.join(os.path.dirname(__file__), 'Templates'))
 
 DB_PATH = 'reciclagem.db'
+import os
+app = Flask(__name__, template_folder=os.path.join(os.path.dirname(__file__), 'Templates'))
 
 # ─── Banco de Dados ────────────────────────────────────────────────────────────
 
