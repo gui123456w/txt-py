@@ -2,17 +2,13 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 import sqlite3
 import hashlib
 import os
+app = Flask(
+    __name__,
+    template_folder=os.path.join(os.path.dirname(__file__), 'Templates')
+)
 
-# de:
-app = Flask(__name__)
-
-# para:
-app = Flask(__name__, template_folder=os.path.join(os.path.dirname(__file__), 'Templates'))
-
+app.secret_key = "sua_chave_secreta"
 DB_PATH = 'reciclagem.db'
-import os
-app = Flask(__name__, template_folder=os.path.join(os.path.dirname(__file__), 'Templates'))
-
 # ─── Banco de Dados ────────────────────────────────────────────────────────────
 
 def get_db():
