@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import sqlite3
 import hashlib
@@ -5,11 +6,10 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-app = Flask(__name__, template_folder=os.path.join(BASE_DIR, 'templates'))
+app = Flask(__name__, template_folder=os.path.join(BASE_DIR, 'reciclagem', 'templates'))
 app.secret_key = os.environ.get('SECRET_KEY', 'chave_secreta_2024')
 
-DB_PATH = os.path.join(BASE_DIR, 'reciclagem.db')
-
+DB_PATH = os.path.join(BASE_DIR, 'reciclagem', 'reciclagem.db')
 
 def get_db():
     conn = sqlite3.connect(DB_PATH)
